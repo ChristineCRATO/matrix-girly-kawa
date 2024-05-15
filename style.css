@@ -1,0 +1,55 @@
+body,
+html {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.matrix-wallpaper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(229, 187, 217);
+  overflow: hidden;
+}
+
+.code-rain {
+  position: absolute;
+  width: 1px;
+  font-family: 'Quicksand', sans-serif;
+  font-weight: bold;
+  font-size: 36px;
+  animation: rain 5s linear infinite; /* Répéter indéfiniment*/
+}   
+
+/*style color */
+.red {
+    color: rgb(208, 23, 54);
+}
+.violet {
+    color:rgb(137, 59, 134)
+}
+.purple {
+    color: rgb(104, 21, 111);
+}
+.pink {
+    color: rgb(229, 67, 156);
+}
+.white {
+    color: white;
+}
+.yellow {
+    color: yellow;
+}
+
+
+@keyframes rain {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100vh);
+  }
+}
