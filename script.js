@@ -1,46 +1,60 @@
-
-// Fonction pour créer une ligne de code avec un mot spécifié
-function createCodeLine(word) {
-    const codeLine = document.createElement("div");
-    codeLine.classList.add("code-rain");
-    codeLine.classList.add(getRandomColor()); // Position horizontale aléatoire
-    codeLine.style.left = `${Math.random() * 100}%`;
-    codeLine.textContent = word; // Mot spécifié
-    return codeLine;
-  }
-  
-  // Fonction pour faire tomber les lignes de code
-  function animateCodeLines() {
-    const matrixWallpaper = document.getElementById("matrix-wallpaper");
-    const windowHeight = window.innerHeight;
+function createCodeElement() {
     const phrase =
-      "Hello ! Moi, c'est Christine et ma marque GitPixel et je recherche un poste comme Développeuse Web ou bien être FreeLanceuSe !";
+      "Hello! MoiC'estChristine VoiciMaMarque GitPixel JeRecherche unPoste DéveloppeuseWeb ouFreeLanceuSe";
     const words = phrase.split(" ");
-    let index = 0;
-  
-    setInterval(() => {
-      const word = words[index % words.length];
-      const codeLine = createCodeLine(word);
-      matrixWallpaper.appendChild(codeLine);
-  
-      // Supprimer les lignes de code qui sortent de l'écran
-      const codeLines = document.querySelectorAll(".code-rain");
-      codeLines.forEach((line) => {
-        const top = parseInt(line.style.top, 10);
-        if (top > windowHeight) {
-          matrixWallpaper.removeChild(line);
-        }
-      });
-  
-      index++;
-    }, 130); // Vitesse de création des lignes (en millisecondes)
-  }
-  
-  function getRandomColor() {
+    const randomElement = Math.random() < 0.5 ? createTextElement(words) : createImageElement();
+    return randomElement;
+}
+
+function createTextElement(words) {
+    const randomWord = words[Math.floor(Math.random() * words.length)];
+    const textElement = document.createElement("div");
+    textElement.classList.add("code-rain");
+    textElement.textContent = randomWord;
+    textElement.style.left = `${Math.random() * 100}%`;
+    textElement.classList.add(getRandomColor()); // Ajout de la classe pour la couleur aléatoire
+    return textElement;
+}
+
+function createImageElement() {
+    const images = ["baleine.png", "chaton.png", "dolly.png", "helloKitty.png", "panda.png"];
+    const randomImage = images[Math.floor(Math.random() * images.length)];
+    const imagePath = "/img/";
+    const imageElement = document.createElement("img");
+    imageElement.classList.add("code-rain");
+    imageElement.src = imagePath + randomImage;
+    imageElement.style.left = `${Math.random() * 100}%`;
+    return imageElement;
+}
+
+function getRandomColor() {
     const colors = ["red", "violet", "purple", "pink", "white", "yellow"]; // Ajoutez autant de couleurs que vous le souhaitez
     return colors[Math.floor(Math.random() * colors.length)];
 }
 
-  // Démarrer l'animation
-  animateCodeLines();
-  
+const maxElements = 20; // Nombre maximum d'éléments à afficher
+
+function animateCodeLines() {
+    const matrixWallpaper = document.getElementById("matrix-wallpaper");
+    const windowHeight = window.innerHeight;
+    let topPosition = 60; // position verticale
+
+    setInterval(() => {
+        const codeElement = createCodeElement();
+        codeElement.style.top = `${topPosition}px`; // Positionner l'élément en fonction de la position verticale actuelle
+        matrixWallpaper.appendChild(codeElement);
+
+        const codeElements = document.querySelectorAll(".code-rain");
+        if (codeElements.length > maxElements) {
+            matrixWallpaper.removeChild(codeElements[0]); // Supprime le premier élément (le plus ancien)
+        } 
+        codeElements.forEach((element) => {
+            const top = parseInt(element.style.top, 10);
+            if (top > windowHeight) {
+                matrixWallpaper.removeChild(element);
+            }
+        });
+    }, 180);
+}
+
+animateCodeLines();
